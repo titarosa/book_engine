@@ -1,4 +1,5 @@
 require('dotenv').config();  // Ensure env variables are loaded
+<<<<<<< HEAD
 
 const mongoose = require('mongoose');
 
@@ -6,6 +7,14 @@ const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/googlebooks', {
   useNewUrlParser: true,
   useUnifiedTopology: true
+=======
+const mongoose = require('mongoose');
+
+// Connect to the MongoDB URI from .env, or fallback to a local connection for development (using 'booksearch21' locally)
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/booksearch21', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+>>>>>>> f91b704 (Finxinf Monog URI)
 });
 
 mongoose.connection.on('connected', () => {
