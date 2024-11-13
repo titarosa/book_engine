@@ -1,8 +1,6 @@
-require('dotenv').config(); // Load environment variables
-
-const express = require('express');
 const path = require('path');
-const cors = require('cors');  // Import CORS
+const express = require('express');
+const cors = require('cors');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const { authMiddleware } = require('./utils/auth');
@@ -27,23 +25,24 @@ const apolloServer = new ApolloServer({
 const initializeApolloServer = async () => {
   // Start Apollo server
   await apolloServer.start();
-  
+
   // Middleware for parsing the request body
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
-  
+
   // Set up GraphQL endpoint with authentication middleware
   app.use('/graphql', expressMiddleware(apolloServer, {
     context: authMiddleware
   }));
 
-  // Serve static files from the client build folder in production
+  // Serve static files from the dist folder in production
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/build')));
+    // Update to serve from the dist folder
+    app.use(express.static(path.join(__dirname, '../client/dist')));
 
     // Fallback route for any undefined route (important for single-page apps)
     app.get('*', (req, res) => {
-      res.sendFile(path.join(__dirname, '../client/build/index.html'));
+      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
     });
   }
 
